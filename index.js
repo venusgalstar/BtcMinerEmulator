@@ -74,6 +74,9 @@ async function main() {
 
 		const hash = sha256(block_header);
 
+		// console.log("hash", hash)
+		// console.log("target", target)
+
 		if(lessThan(hash, target)) {
 			(async () => {
 				console.log("Submitting share");
@@ -149,6 +152,8 @@ async function main() {
 			clean_jobs
 		] = args;
 
+		console.log("args", args)
+
 		job_id = _job_id;
 		ntime = _ntime;
 
@@ -182,9 +187,15 @@ async function main() {
 	[ subscriptionDetails, extranonce1, extranonce2_size ] = await stratum.send("mining.subscribe");
 	extranonce2 = crypto.randomBytes(extranonce2_size);
 
+	console.log("subscriptionDetails", subscriptionDetails);
+	console.log("extranonce1", extranonce1);
+	console.log("extranonce2_size", extranonce2_size);
+
 	console.log("authorize");
 
-	await stratum.send("mining.authorize", username, password);
+	msg = await stratum.send("mining.authorize", username, password);
+
+	console.log("msg", msg);
 }
 
 main().catch(e => console.log(e));
